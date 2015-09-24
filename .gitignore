@@ -6,3 +6,7 @@
 # configs
 /config.php
 /coza/
+
+#composer
+composer.lock
+/vendor
