@@ -147,7 +147,7 @@ abstract class AbstractFrame extends DOMDocument implements FrameInterface
                 throw new Exception(sprintf('unknown namespace: %s', $node_ns));
             }
 
-            // create node (but don't explicitely define root-node)
+            // create node (but don't explicitly define root-node)
             if ($node_ns === 'epp') {
                 $this->nodes[$node_path] = $this->createElementNS($node_xmlns, $node_name);
             } else {

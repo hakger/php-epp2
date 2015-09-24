@@ -328,7 +328,7 @@ class Client
 
         $pos = 0;
         while (!$info['timed_out'] && !feof($this->socket)) {
-            // Some servers don't like alot of data, so keep it small per chunk
+            // Some servers don't like a lot of data, so keep it small per chunk
             $wlen = $length - $pos;
 
             if ($wlen > 1024) {
