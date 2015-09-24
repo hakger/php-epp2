@@ -1,0 +1,69 @@
+{
+  "linters": {
+    "chmod": {
+      "type": "chmod"
+    },
+    "filename": {
+      "type": "filename"
+    },
+    "generated": {
+      "type": "generated"
+    },
+    "json": {
+      "type": "json",
+      "include": [
+        "(^\\.arcconfig$)",
+        "(^\\.arclint$)",
+        "(\\.json$)"
+      ]
+    },
+    "less": {
+      "type": "lessc",
+      "include": [
+        "(\\.less$)"
+      ]
+    },
+    "merge-conflict": {
+      "type": "merge-conflict"
+    },
+    "php": {
+      "type": "php",
+      "include": [
+        "(\\.php$)"
+      ]
+    },
+    "php-cs": {
+      "type": "phpcs",
+      "phpcs.standard": "PSR2",
+      "flags" : [
+        "-n",
+        "-s"
+      ],
+      "include": [
+        "(\\.php$)"
+      ]
+    },
+    "spelling": {
+      "type": "spelling"
+    },
+    "text": {
+      "type": "text",
+      "severity": {
+        "3": "disabled",
+        "5": "disabled"
+      }
+    },
+    "xml": {
+      "type": "xml",
+      "include": [
+        "(\\.xml$)"
+      ]
+    },
+    "composer": {
+      "type": "composer",
+      "include": [
+        "(^composer\\.)"
+      ]
+    }
+  }
+}
