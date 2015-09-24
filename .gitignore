@@ -1,0 +1,8 @@
+# Eclipse + PDT
+/.settings/
+/.buildpath
+/.project
+
+# configs
+/config.php
+/coza/
