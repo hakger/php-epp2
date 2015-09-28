@@ -1,9 +1,9 @@
 {
-    "name": "africc/php-epp2",
+    "name": "hakger/php-epp2",
     "type": "library",
-    "description": "A High Level EPP (Extensible Provisioning Protocol) TCP/SSL Client for PHP",
+    "description": "A High Level EPP (Extensible Provisioning Protocol) TCP/SSL Client for PHP. HAKGERSoft fork.",
     "keywords": ["epp", "domains", "registrar", "registry", "client", "tcp"],
-    "homepage": "https://github.com/AfriCC/php-epp2",
+    "homepage": "https://github.com/hakger/php-epp2",
     "license": "GPL-3.0+",
     "authors": [
         {
@@ -11,12 +11,21 @@
             "email": "packagist@afri.cc",
             "homepage": "https://www.afri.cc",
             "role": "Developer"
+        },
+        {
+            "name": "Hubert Kowalski",
+            "email": "h.kowalski@hakger.pl",
+            "homepage": "https://www.hakger.pl",
+            "role": "Contributor"
         }
     ],
     "require": {
         "php": ">=5.4.0",
         "ext-intl": "*",
         "ext-mcrypt": "*"
+    },
+    "replace": {
+        "africc/php-epp2": "*"
     },
     "autoload": {
         "psr-4": {
