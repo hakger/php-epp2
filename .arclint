@@ -60,11 +60,28 @@
         "(\\.xml$)"
       ]
     },
-    "composer": {
-      "type": "composer",
-      "include": [
-        "(^composer\\.)"
-      ]
+    ,
+    "xhpast": {
+      "type": "xhpast",
+      "include": "(\\.php$)",
+      "exclude": [
+        "(^tests/)"
+      ],
+      "severity": {
+        "9" : "disabled",
+        "16": "advice",
+        "24": "disabled",
+        "34": "error",
+        "37": "disabled",
+        "38": "disabled",
+        "42": "disabled",
+        "44": "disabled"
+      },
+      "xhpast.blacklisted.function": {
+        "eval": "The eval() is evil."
+      },
+      "xhpast.php-version": "5.4.0",
+      "xhpast.php-version.windows": "5.4.0"
     }
   }
 }
