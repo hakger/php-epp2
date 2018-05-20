@@ -60,7 +60,6 @@
         "(\\.xml$)"
       ]
     },
-    ,
     "xhpast": {
       "type": "xhpast",
       "include": "(\\.php$)",
@@ -75,13 +74,14 @@
         "37": "disabled",
         "38": "disabled",
         "42": "disabled",
-        "44": "disabled"
+        "44": "disabled",
+        "113": "disabled"
       },
       "xhpast.blacklisted.function": {
         "eval": "The eval() is evil."
       },
-      "xhpast.php-version": "5.4.0",
-      "xhpast.php-version.windows": "5.4.0"
+      "xhpast.php-version": "5.5.0",
+      "xhpast.php-version.windows": "5.5.0"
     }
   }
 }

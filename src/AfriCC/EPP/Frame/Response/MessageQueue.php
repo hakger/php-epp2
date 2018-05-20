@@ -13,7 +13,6 @@ namespace AfriCC\EPP\Frame\Response;
 
 use AfriCC\EPP\Frame\Response as ResponseFrame;
 
-
 class MessageQueue extends ResponseFrame
 {
     public function queueId()
@@ -23,7 +22,7 @@ class MessageQueue extends ResponseFrame
 
     public function queueCount()
     {
-        return $this->get('//epp:epp/epp:response/epp:msgQ/@count');
+        return (int)$this->get('//epp:epp/epp:response/epp:msgQ/@count');
     }
 
     public function queueMessage()
@@ -36,6 +35,7 @@ class MessageQueue extends ResponseFrame
         if ($format) {
             return date($format, strtotime($this->get('//epp:epp/epp:response/epp:msgQ/epp:qDate/text()')));
         }
+
         return $this->get('//epp:epp/epp:response/epp:msgQ/epp:qDate/text()');
     }
 }

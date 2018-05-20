@@ -12,12 +12,12 @@
 namespace AfriCC\EPP\Frame\Command\Transfer;
 
 use AfriCC\EPP\Frame\Command\Transfer as TransferCommand;
-use AfriCC\EPP\Validator;
 use AfriCC\EPP\PeriodTrait;
+use AfriCC\EPP\Validator;
 use Exception;
 
 /**
- * @link http://tools.ietf.org/html/rfc5731#section-3.2.4
+ * @see http://tools.ietf.org/html/rfc5731#section-3.2.4
  */
 class Domain extends TransferCommand
 {
@@ -26,7 +26,7 @@ class Domain extends TransferCommand
     public function setDomain($domain)
     {
         if (!Validator::isHostname($domain)) {
-            throw new Exception(sprintf('%s is not a valid domain name'));
+            throw new Exception(sprintf('%s is not a valid domain name', $domain));
         }
 
         $this->set('domain:name', $domain);

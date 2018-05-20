@@ -1,4 +1,10 @@
-[![Build Status](https://travis-ci.org/AfriCC/php-epp2.svg?branch=master)](https://travis-ci.org/AfriCC/php-epp2) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/AfriCC/php-epp2/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/AfriCC/php-epp2/?branch=master) [![Latest Stable Version](https://poser.pugx.org/africc/php-epp2/v/stable.svg)](https://packagist.org/packages/africc/php-epp2) [![Packagist](https://img.shields.io/packagist/dt/africc/php-epp2.svg)](https://packagist.org/packages/africc/php-epp2) [![Latest Unstable Version](https://poser.pugx.org/africc/php-epp2/v/unstable.svg)](https://packagist.org/packages/africc/php-epp2) [![License](https://poser.pugx.org/africc/php-epp2/license.svg)](https://packagist.org/packages/africc/php-epp2)
+[![Build Status](https://travis-ci.org/AfriCC/php-epp2.svg?branch=master)](https://travis-ci.org/AfriCC/php-epp2)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/AfriCC/php-epp2/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/AfriCC/php-epp2/?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/AfriCC/php-epp2/badge.svg?branch=master)](https://coveralls.io/github/AfriCC/php-epp2?branch=master)
+[![Latest Stable Version](https://poser.pugx.org/africc/php-epp2/v/stable.svg)](https://packagist.org/packages/africc/php-epp2)
+[![Packagist](https://img.shields.io/packagist/dt/africc/php-epp2.svg)](https://packagist.org/packages/africc/php-epp2)
+[![Latest Unstable Version](https://poser.pugx.org/africc/php-epp2/v/unstable.svg)](https://packagist.org/packages/africc/php-epp2)
+[![License](https://poser.pugx.org/africc/php-epp2/license.svg)](https://packagist.org/packages/africc/php-epp2)
 
 php-epp2
 ========
@@ -27,25 +33,23 @@ meaningful branchname, issue pull request with thus branchname)!
 Requirements
 ------------
 
-* PHP 5.4 or higher
-* libicu 4.8 or higher
-* php-intl 3 or higher
-* php-mcrypt
+* PHP 5.5+
+* php-ext-intl
+* php-ext-openssl
 
 
 Features
 --------
 
 * modern PHP standards
-    * autoloader (e.g. lazy loading, we don't want to load XXX php files, if we only need few operations)
-    * [PSR-1](http://www.php-fig.org/psr/psr-1/) and [PSR-2](http://www.php-fig.org/psr/psr-2/) compliant
+    * [PSR-1](http://www.php-fig.org/psr/psr-1/), [PSR-2](http://www.php-fig.org/psr/psr-2/) & [PSR-4](http://www.php-fig.org/psr/psr-4/)
     * notice and warning free (find them, and I'll fix it!)
 * high-level usage (Plug & Play)
 * simplified client (auto login/logout, auto inject clTRID)
 * SSL (+local-cert)
-* Xpath like setter to simplify the creation of complex XML structures
-* XML based responses for direct traversal via Xpath
-* [RFC 5730](http://tools.ietf.org/html/rfc5730), [RFC 5731](http://tools.ietf.org/html/rfc5731), [RFC 5732](http://tools.ietf.org/html/rfc5732), [RFC 5733](http://tools.ietf.org/html/rfc5733), [RFC 5734](http://tools.ietf.org/html/rfc5734)
+* XPath like setter to simplify the creation of complex XML structures
+* XML based responses for direct traversal via XPath
+* [RFC 5730](http://tools.ietf.org/html/rfc5730), [RFC 5731](http://tools.ietf.org/html/rfc5731), [RFC 5732](http://tools.ietf.org/html/rfc5732), [RFC 5733](http://tools.ietf.org/html/rfc5733), [RFC 5734](http://tools.ietf.org/html/rfc5734) & [RFC 3915](http://tools.ietf.org/html/rfc3915)
 
 
 Install
@@ -53,12 +57,8 @@ Install
 
 Via Composer
 
-```json
-{
-    "require": {
-        "africc/php-epp2": "0.1.*"
-    }
-}
+```
+$ composer require africc/php-epp2
 ```
 
 
@@ -78,7 +78,7 @@ this will automatically login on connect() and logout on close()
 
 ```php
 <?php
-require 'src/AfriCC/autoload.php';
+require 'vendor/autoload.php';
 
 use AfriCC\EPP\Client as EPPClient;
 
@@ -115,7 +115,7 @@ add values.
 
 ```php
 <?php
-require 'src/AfriCC/autoload.php';
+require 'vendor/autoload.php';
 
 use AfriCC\EPP\Frame\Command\Create\Host as CreateHost;
 
@@ -153,8 +153,10 @@ if (!($response instanceof Response)) {
     exit(1);
 }
 
-echo $response->code() . PHP_EOL;
-echo $response->message() . PHP_EOL;
+$result = $response->results()[0];
+
+echo $result->code() . PHP_EOL;
+echo $result->message() . PHP_EOL;
 echo $response->clientTransactionId() . PHP_EOL;
 echo $response->serverTransactionId() . PHP_EOL;
 $data = $response->data();
@@ -173,6 +175,7 @@ foreach ($data['chkData']['cd'] as $cd) {
 Future
 ------
 
+* objectspec on login needs to be smarter (no global/static object, auto-injecter)
 * stricter response parsing
 * stricter request validation
 * make it server capable (in conjunction with apache mod_epp)

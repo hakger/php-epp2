@@ -77,7 +77,7 @@ abstract class AbstractFrame extends DOMDocument implements FrameInterface
 
         // @see http://stackoverflow.com/a/24730245/567193
         if ($nodes->length === 1 && (
-                ($last_bit{0} === '@' && $nodes->item(0)->nodeType === XML_ATTRIBUTE_NODE) ||
+                ($last_bit[0] === '@' && $nodes->item(0)->nodeType === XML_ATTRIBUTE_NODE) ||
                 (stripos($last_bit, 'text()') === 0 && $nodes->item(0)->nodeType === XML_TEXT_NODE)
             )) {
             return $nodes->item(0)->nodeValue;
@@ -94,11 +94,10 @@ abstract class AbstractFrame extends DOMDocument implements FrameInterface
     protected function createNodes($path)
     {
         $path_parts = explode('/', $path);
-        $node_path  = null;
+        $node_path = null;
 
         for ($i = 0, $limit = count($path_parts); $i < $limit; ++$i) {
-
-            $attr_name = $attr_value = null;
+            $attr_name = $attr_value = $matches = null;
 
             // if no namespace given, use root-namespace
             if (strpos($path_parts[$i], ':') === false) {
@@ -124,14 +123,14 @@ abstract class AbstractFrame extends DOMDocument implements FrameInterface
                 ++$next_key;
                 $path_parts[$i] = sprintf('%s:%s[%d]', $node_ns, $node_name, $next_key);
             }
-            // direct node-array access
+
             if (preg_match('/^(.*)\[(\d+)\]$/', $node_name, $matches)) {
+                // direct node-array access
                 $node_name = $matches[1];
-            }
-            // check if attribute needs to be set
-            elseif (preg_match('/^(.*)\[@([a-z0-9]+)=\'([a-z0-9]+)\'\]$/i', $node_name, $matches)) {
-                $node_name  = $matches[1];
-                $attr_name  = $matches[2];
+            } elseif (preg_match('/^(.*)\[@([a-z0-9]+)=\'([a-z0-9_]+)\'\]$/i', $node_name, $matches)) {
+                // check if attribute needs to be set
+                $node_name = $matches[1];
+                $attr_name = $matches[2];
                 $attr_value = $matches[3];
             }
 
@@ -175,9 +174,8 @@ abstract class AbstractFrame extends DOMDocument implements FrameInterface
     {
         if ($path === null) {
             $path_parts = [];
-        }
-        // absolute path
-        elseif (isset($path{1}) && $path{0} === '/' && $path{1} === '/') {
+        } elseif (isset($path[1]) && $path[0] === '/' && $path[1] === '/') {
+            // absolute path
             return substr($path, 2);
         } else {
             $path_parts = explode('/', $path);
@@ -196,6 +194,7 @@ abstract class AbstractFrame extends DOMDocument implements FrameInterface
         }
 
         array_unshift($path_parts, 'epp:epp');
+
         return implode('/', $path_parts);
     }
 
@@ -222,14 +221,14 @@ abstract class AbstractFrame extends DOMDocument implements FrameInterface
             } elseif (empty($this->command) && $parent_class === 'Command') {
                 $this->command = strtolower($bare_class);
             } elseif ($parent_class === 'AbstractFrame') {
-                $this->format  = strtolower($bare_class);
+                $this->format = strtolower($bare_class);
             }
         }
 
         if ($this instanceof ExtensionInterface) {
             // automatically guess extension according to class name if not defined in class
             if (!isset($this->extension)) {
-                $this->extension = strtolower($this->className(get_class($this)));
+                $this->extension = $this->getExtensionName();
             }
 
             // add to object spec
@@ -245,6 +244,12 @@ abstract class AbstractFrame extends DOMDocument implements FrameInterface
         if (($pos = strrpos($class, '\\')) === false) {
             return $class;
         }
+
         return substr($class, $pos + 1);
+    }
+
+    public function getExtensionName()
+    {
+        return strtolower($this->className(get_class($this)));
     }
 }

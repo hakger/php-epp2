@@ -21,7 +21,9 @@ class Validator
 
     /**
      * hashmap country-code -> country name (english)
-     * @link https://gist.github.com/vxnick/380904
+     *
+     * @see https://gist.github.com/vxnick/380904
+     *
      * @var array
      */
     protected static $countries = [
@@ -274,7 +276,9 @@ class Validator
 
     /**
      * returns version of IP address, or false if not an IP
+     *
      * @param string $ip
+     *
      * @return bool|int
      */
     public static function getIPType($ip)
@@ -290,25 +294,31 @@ class Validator
 
     /**
      * returns true if hostname is usuable
+     *
      * @author velcrow
-     * @link http://stackoverflow.com/a/4694816
+     *
+     * @see http://stackoverflow.com/a/4694816
+     *
      * @param string $hostname
+     *
      * @return bool
      */
     public static function isHostname($hostname)
     {
-        if (preg_match('/^([a-z\d](-*[a-z\d])*)(\.([a-z\d](-*[a-z\d])*))*$/i', $hostname) && //valid chars check
-            preg_match('/^.{1,253}$/', $hostname) && //overall length check
-            preg_match('/^[^\.]{1,63}(\.[^\.]{1,63})*$/', $hostname) && //length of each label
+        if (preg_match('/^([a-z\d](-*[a-z\d])*)(\.([a-z\d](-*[a-z\d])*))*$/i', $hostname) && // valid chars check
+            preg_match('/^.{1,253}$/', $hostname) && // overall length check
+            preg_match('/^[^\.]{1,63}(\.[^\.]{1,63})*$/', $hostname) && // length of each label
             strpos($hostname, '.') // has at least two labels (SLD + TLD)
         ) {
             return true;
         }
+
         return false;
     }
 
     /**
      * returns true if email is usuable
+     *
      * @param string $email
      */
     public static function isEmail($email)
@@ -320,12 +330,14 @@ class Validator
 
         $ascii_email = substr($email, 0, $pos) . '@' . idn_to_ascii(substr($email, $pos + 1), 0, INTL_IDNA_VARIANT_2003);
 
-        return filter_var($ascii_email, FILTER_VALIDATE_EMAIL);
+        return (bool)filter_var($ascii_email, FILTER_VALIDATE_EMAIL);
     }
 
     /**
      * returns country name if country code is known, false if unknown
+     *
      * @param string $country_code
+     *
      * @return bool|string
      */
     public static function isCountryCode($country_code)

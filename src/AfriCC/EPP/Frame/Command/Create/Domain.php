@@ -11,20 +11,19 @@
 
 namespace AfriCC\EPP\Frame\Command\Create;
 
-use AfriCC\EPP\Frame\Command\Create as CreateCommand;
-use AfriCC\EPP\Validator;
-use AfriCC\EPP\Random;
-use AfriCC\EPP\PeriodTrait;
 use AfriCC\EPP\AddrTrait;
+use AfriCC\EPP\Frame\Command\Create as CreateCommand;
+use AfriCC\EPP\PeriodTrait;
+use AfriCC\EPP\Random;
+use AfriCC\EPP\Validator;
 use Exception;
 
 /**
- * @link http://tools.ietf.org/html/rfc5731#section-3.2.1
+ * @see http://tools.ietf.org/html/rfc5731#section-3.2.1
  */
 class Domain extends CreateCommand
 {
     use PeriodTrait, AddrTrait;
-
 
     public function setDomain($domain)
     {
@@ -81,5 +80,7 @@ class Domain extends CreateCommand
         }
 
         $this->set('domain:authInfo/domain:pw', $pw);
+
+        return $pw;
     }
 }
