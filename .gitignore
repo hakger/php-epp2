@@ -10,3 +10,5 @@
 #composer
 composer.lock
 /vendor
+/php-epp2.bfproject
+/php-epp2.geany

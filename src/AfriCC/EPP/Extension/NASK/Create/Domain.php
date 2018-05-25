@@ -26,9 +26,19 @@ class Domain extends DomainCreate implements ExtensionInterface
         $this->set('//epp:epp/epp:command/epp:extension/extdom:create/extdom:book');
     }
     
-    public function setReason($reason)
+    public function setAdminContact($admin_contact)
     {
-        $this->set('//epp:epp/epp:command/epp:extension/extdom:create/extdom:reason', $reason);
+        return false; //TODO: should this throw if registry doesn't allow Admin contact?
+    }
+    
+    public function setTechContact($tech_contact)
+    {
+        return false; //TODO: should this throw if registry doesn't allow Tech contact?
+    }
+    
+    public function setBillingContact($billing_contact)
+    {
+        return false; //TODO: should this throw if registry doesn't allow Billing contact?
     }
 }
 
