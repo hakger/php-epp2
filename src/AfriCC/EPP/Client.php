@@ -15,6 +15,7 @@ use AfriCC\EPP\Frame\Command\Login as LoginCommand;
 use AfriCC\EPP\Frame\Command\Logout as LogoutCommand;
 use AfriCC\EPP\Frame\Response as ResponseFrame;
 use AfriCC\EPP\Frame\ResponseFactory;
+use AfriCC\EPP\ClientInterface;
 use Exception;
 
 /**
@@ -22,7 +23,7 @@ use Exception;
  *
  * @see http://tools.ietf.org/html/rfc5734
  */
-class Client
+class Client implements ClientInterface
 {
     protected $socket;
     protected $host;

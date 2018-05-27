@@ -1,12 +1,13 @@
 <?php
 namespace AfriCC\EPP;
 
+use AfriCC\EPP\ClientInterface;
 use AfriCC\EPP\Frame\ResponseFactory;
 use AfriCC\EPP\Frame\Response as ResponseFrame;
 use AfriCC\EPP\Frame\Command\Login as LoginCommand;
 use AfriCC\EPP\Frame\Command\Logout as LogoutCommand;
 
-class HTTPClient
+class HTTPClient implements ClientInterface
 {
     protected $curl;
     protected $host;
