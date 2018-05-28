@@ -12,8 +12,7 @@ class HTTPClient extends AbstractClient implements ClientInterface
     
     public function __construct(array $config)
     {
-        parent::__construct();
-        
+        parent::__construct($config);
         
         if (!empty($config['cookiejar'])) {
             $this->cookiejar = $config['cookiejar'];

@@ -27,7 +27,7 @@ class Client extends AbstractClient implements ClientInterface
 
     public function __construct(array $config)
     {
-        parent::__construct();
+        parent::__construct($config);
         
         if (!empty($config['chunk_size'])) {
             $this->chunk_size = (int)$config['chunk_size'];
