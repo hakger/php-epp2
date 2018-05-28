@@ -36,5 +36,9 @@
 		"psr-4" : {
 			"AfriCC\\" : "src/AfriCC"
 		}
+	},
+	"suggests" : {
+		"ext-curl" : "Required if you wish to use HTTPClient",
+		"paragonie/random_compat" : "Better support for random_bytes on earlier PHP"
 	}
 }
