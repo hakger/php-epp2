@@ -1,7 +1,5 @@
 <?php
-use AfriCC\EPP\FrameInterface;
-
-namespace\AfriCC\EPP;
+namespace AfriCC\EPP;
 
 interface ClientInterface
 {

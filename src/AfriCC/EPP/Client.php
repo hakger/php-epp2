@@ -11,99 +11,24 @@
 
 namespace AfriCC\EPP;
 
-use AfriCC\EPP\Frame\Command\Login as LoginCommand;
 use AfriCC\EPP\Frame\Command\Logout as LogoutCommand;
-use AfriCC\EPP\Frame\Response as ResponseFrame;
 use AfriCC\EPP\Frame\ResponseFactory;
-use AfriCC\EPP\ClientInterface;
-use Exception;
+use \Exception;
 
 /**
  * A high level TCP (SSL) based client for the Extensible Provisioning Protocol (EPP)
  *
  * @see http://tools.ietf.org/html/rfc5734
  */
-class Client implements ClientInterface
+class Client extends AbstractClient implements ClientInterface
 {
     protected $socket;
-    protected $host;
-    protected $port;
-    protected $username;
-    protected $password;
-    protected $services;
-    protected $serviceExtensions;
-    protected $ssl;
-    protected $local_cert;
-    protected $passphrase;
-    protected $debug;
-    protected $connect_timeout;
-    protected $timeout;
     protected $chunk_size;
 
     public function __construct(array $config)
     {
-        if (!empty($config['host'])) {
-            $this->host = (string) $config['host'];
-        }
-
-        if (!empty($config['port'])) {
-            $this->port = (int) $config['port'];
-        } else {
-            $this->port = 700;
-        }
-
-        if (!empty($config['username'])) {
-            $this->username = (string) $config['username'];
-        }
-
-        if (!empty($config['password'])) {
-            $this->password = (string) $config['password'];
-        }
-
-        if (!empty($config['services']) && is_array($config['services'])) {
-            $this->services = $config['services'];
-
-            if (!empty($config['serviceExtensions']) && is_array($config['serviceExtensions'])) {
-                $this->serviceExtensions = $config['serviceExtensions'];
-            }
-        }
-
-        if (!empty($config['ssl'])) {
-            $this->ssl = true;
-        } else {
-            $this->ssl = false;
-        }
-
-        if (!empty($config['local_cert'])) {
-            $this->local_cert = (string) $config['local_cert'];
-
-            if (!is_readable($this->local_cert)) {
-                throw new Exception(sprintf('unable to read local_cert: %s', $this->local_cert));
-            }
-
-            if (!empty($config['passphrase'])) {
-                $this->passphrase = $config['passphrase'];
-            }
-        }
-
-        if (!empty($config['debug'])) {
-            $this->debug = true;
-        } else {
-            $this->debug = false;
-        }
-
-        if (!empty($config['connect_timeout'])) {
-            $this->connect_timeout = (int) $config['connect_timeout'];
-        } else {
-            $this->connect_timeout = 4;
-        }
-
-        if (!empty($config['timeout'])) {
-            $this->timeout = (int) $config['timeout'];
-        } else {
-            $this->timeout = 8;
-        }
-
+        parent::__construct();
+        
         if (!empty($config['chunk_size'])) {
             $this->chunk_size = (int)$config['chunk_size'];
         } else {
@@ -119,10 +44,11 @@ class Client implements ClientInterface
     /**
      * Open a new connection to the EPP server
      */
-    public function connect()
+    public function connect($newPassword = false)
     {
+        $proto = $this->ssl ? 'ssl' : 'tcp';
+        
         if ($this->ssl) {
-            $proto = 'ssl';
 
             $context = stream_context_create();
             stream_context_set_option($context, 'ssl', 'verify_peer', false);
@@ -135,11 +61,15 @@ class Client implements ClientInterface
                     stream_context_set_option($context, 'ssl', 'passphrase', $this->passphrase);
                 }
             }
-        } else {
-            $proto = 'tcp';
-        }
+            if ($this->ca_cert !== null){
+                stream_context_set_option($context, 'ssl', 'cafile', $this->ca_cert);
+            }
+            if ($this->pk_cert !== null){
+                stream_context_set_option($context, 'ssl', 'local_pk', $this->pk_cert);
+            }
+        } 
 
-        $target = sprintf('%s://%s:%d', $proto, $this->host, $this->port);
+        $target = sprintf('%s://%s:%d', $proto, $this->host, $this->port ? $this->port : 700);
 
         $errno = 0;
         $errstr = '';
@@ -167,7 +97,7 @@ class Client implements ClientInterface
         $greeting = $this->getFrame();
 
         // login
-        $this->login();
+        $this->login($newPassword);
 
         // return greeting
         return $greeting;
@@ -237,59 +167,24 @@ class Client implements ClientInterface
         return $this->getFrame();
     }
 
+    
+
+    protected function log($message, $color = '0;32')
+    {
+        if ($message === '' || !$this->debug) {
+            return;
+        }
+        echo sprintf("\033[%sm%s\033[0m", $color, $message);
+    }
+    
     /**
      * check if socket is still active
      *
      * @return bool
      */
-    public function active()
+    private function active()
     {
         return !is_resource($this->socket) || feof($this->socket) ? false : true;
-    }
-
-    protected function login()
-    {
-        // send login command
-        $login = new LoginCommand();
-        $login->setClientId($this->username);
-        $login->setPassword($this->password);
-        $login->setVersion('1.0');
-        $login->setLanguage('en');
-
-        if (!empty($this->services) && is_array($this->services)) {
-            foreach ($this->services as $urn) {
-                $login->addService($urn);
-            }
-
-            if (!empty($this->serviceExtensions) && is_array($this->serviceExtensions)) {
-                foreach ($this->serviceExtensions as $extension) {
-                    $login->addServiceExtension($extension);
-                }
-            }
-        }
-
-        $response = $this->request($login);
-        unset($login);
-
-        // check if login was successful
-        if (!($response instanceof ResponseFrame)) {
-            throw new Exception('there was a problem logging onto the EPP server');
-        } elseif ($response->code() !== 1000) {
-            throw new Exception($response->message(), $response->code());
-        }
-    }
-
-    protected function log($message, $color = '0;32')
-    {
-        if ($message === '') {
-            return;
-        }
-        echo sprintf("\033[%sm%s\033[0m", $color, $message);
-    }
-
-    protected function generateClientTransactionId()
-    {
-        return Random::id(64, $this->username);
     }
 
     /**
@@ -314,9 +209,9 @@ class Client implements ClientInterface
 
             // If the buffer actually contains something then add it to the result
             if ($buffer !== false) {
-                if ($this->debug) {
+                
                     $this->log($buffer);
-                }
+                
 
                 $result .= $buffer;
 

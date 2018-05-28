@@ -22,6 +22,7 @@ trait PeriodTrait
 
     protected function appendPeriod($path, $period)
     {
+        $matches=[];
         if (preg_match('/^(\d+)([a-z])$/i', $period, $matches)) {
             $this->set(sprintf($path, $matches[2]), $matches[1]);
         } else {
