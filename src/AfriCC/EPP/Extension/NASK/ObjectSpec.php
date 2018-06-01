@@ -6,7 +6,7 @@ use AfriCC\EPP\ObjectSpec as MainObjectSpec;
 class ObjectSpec extends MainObjectSpec
 {
 
-    public static $spec = [
+    public static $specs = [
         'epp' => [
             'xmlns' => 'http://www.dns.pl/nask-epp-schema/epp-2.0',
         ],
@@ -41,7 +41,7 @@ class ObjectSpec extends MainObjectSpec
     ];
     
     public static function overwriteParent(){
-        MainObjectSpec::$specs = self::$spec;
+        MainObjectSpec::$specs = self::$specs;
     }
     
     
