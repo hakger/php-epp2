@@ -58,7 +58,7 @@ abstract class AbstractClient implements ClientInterface
             }
         }
         
-        if (!empty($config['ssl'] && is_bool($config['ssl']))) {
+        if ((!empty($config['ssl']) && is_bool($config['ssl']))) {
             $this->ssl = $config['ssl'];
         } else {
             $this->ssl = false;
