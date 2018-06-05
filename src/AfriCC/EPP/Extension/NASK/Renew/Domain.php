@@ -1,5 +1,5 @@
 <?php
-namespace src\AfriCC\EPP\Extension\NASK\Renew;
+namespace AfriCC\EPP\Extension\NASK\Renew;
 
 use AfriCC\EPP\ExtensionInterface;
 use AfriCC\EPP\Frame\Command\Renew\Domain as DomainRenew;

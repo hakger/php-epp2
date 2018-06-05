@@ -1,5 +1,5 @@
 <?php
-namespace src\AfriCC\EPP\Extension\NASK\Create;
+namespace AfriCC\EPP\Extension\NASK\Create;
 
 use AfriCC\EPP\ExtensionInterface;
 use AfriCC\EPP\Frame\Command\Create\Contact as ContactCreate;

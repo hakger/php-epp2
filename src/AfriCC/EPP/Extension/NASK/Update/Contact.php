@@ -1,5 +1,5 @@
 <?php
-namespace src\AfriCC\EPP\Extension\NASK\Update;
+namespace AfriCC\EPP\Extension\NASK\Update;
 
 use AfriCC\EPP\ExtensionInterface;
 use AfriCC\EPP\Frame\Command\Update\Contact as ContactUpdate;
