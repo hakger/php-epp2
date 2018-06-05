@@ -35,7 +35,6 @@ class ObjectSpec extends MainObjectSpec
     public static $serviceExtensions = [
         'http://www.dns.pl/nask-epp-schema/extcon-2.0',
         'http://www.dns.pl/nask-epp-schema/extdom-2.0',
-        'http://www.dns.pl/nask-epp-schema/extreport-2.0',
         'http://www.dns.pl/nask-epp-schema/secDNS-2.0',
     ];
     
