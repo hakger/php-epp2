@@ -73,7 +73,7 @@ abstract class AbstractClient implements ClientInterface
         }
         
         if (!empty($config['ca_cert'])) {
-            $this->local_cert = (string) $config['ca_cert'];
+            $this->ca_cert = (string) $config['ca_cert'];
             
             if (!is_readable($this->ca_cert)) {
                 throw new \Exception(sprintf('unable to read ca_cert: %s', $this->ca_cert));
@@ -81,7 +81,7 @@ abstract class AbstractClient implements ClientInterface
         }
         
         if (!empty($config['pk_cert'])) {
-            $this->local_cert = (string) $config['pk_cert'];
+            $this->pk_cert = (string) $config['pk_cert'];
             
             if (!is_readable($this->pk_cert)) {
                 throw new \Exception(sprintf('unable to read pk_cert: %s', $this->pk_cert));
