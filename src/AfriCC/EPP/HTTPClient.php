@@ -37,6 +37,8 @@ class HTTPClient extends AbstractClient implements ClientInterface
     
     /**
      * Open a new connection to the EPP server
+     * 
+     * @param bool|string $newPassword String with new password to set upon login, false if no password
      */
     public function connect($newPassword=false)
     {
@@ -116,7 +118,9 @@ class HTTPClient extends AbstractClient implements ClientInterface
     
     /**
      * sends a XML-based frame to the server
+     * 
      * @param FrameInterface $frame the frame to send to the server
+     * @return string
      */
     public function send(FrameInterface $frame)
     {
@@ -130,7 +134,8 @@ class HTTPClient extends AbstractClient implements ClientInterface
     /**
      * request via EPP
      *
-     * @return ResponseFrame Description
+     * @param FrameInterface $frame Request frame to server
+     * @return string|\AfriCC\EPP\Frame\Response\MessageQueue|\AfriCC\EPP\Frame\Response Response from server
      */
     public function request(FrameInterface $frame)
     {

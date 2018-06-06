@@ -28,6 +28,11 @@ abstract class AbstractFrame extends DOMDocument implements FrameInterface
     protected $mapping;
     protected $extension;
 
+    /**
+     * Construct (with import if specified) frame
+     * 
+     * @param DOMDocument $import
+     */
     public function __construct($import = null)
     {
         parent::__construct('1.0', 'UTF-8');
@@ -50,6 +55,11 @@ abstract class AbstractFrame extends DOMDocument implements FrameInterface
         $this->getStructure();
     }
 
+    /**
+     * 
+     * {@inheritDoc}
+     * @see \AfriCC\EPP\FrameInterface::set()
+     */
     public function set($path = null, $value = null)
     {
         $path = $this->realxpath($path);
@@ -65,6 +75,11 @@ abstract class AbstractFrame extends DOMDocument implements FrameInterface
         return $this->nodes[$path];
     }
 
+    /**
+     * 
+     * {@inheritDoc}
+     * @see \AfriCC\EPP\FrameInterface::get()
+     */
     public function get($query)
     {
         $nodes = $this->xpath->query($query);
@@ -86,6 +101,11 @@ abstract class AbstractFrame extends DOMDocument implements FrameInterface
         }
     }
 
+    /**
+     * 
+     * {@inheritDoc}
+     * @see \AfriCC\EPP\FrameInterface::__toString()
+     */
     public function __toString()
     {
         return $this->saveXML();
