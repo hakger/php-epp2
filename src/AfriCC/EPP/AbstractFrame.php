@@ -22,6 +22,10 @@ use Exception;
 abstract class AbstractFrame extends DOMDocument implements FrameInterface
 {
     protected $xpath;
+    /**
+     * 
+     * @var \DOMElement[]
+     */
     protected $nodes;
     protected $format;
     protected $command;

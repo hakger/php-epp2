@@ -21,7 +21,9 @@ interface FrameInterface
      * Set value to path
      * 
      * @param string $path
-     * @param string $value
+     * @param mixed $value
+     * @return \DOMElement
+     * 
      */
     public function set($path, $value);
 
