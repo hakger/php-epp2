@@ -165,7 +165,7 @@ trait ContactTrait
     {
         $node = $this->set($path, $voice);
         
-        if(!is_null($extension) && is_int($extension)){
+        if(!is_null($extension)){
            $node->setAttribute('x', $extension); 
         }
     }
@@ -174,7 +174,7 @@ trait ContactTrait
     {
         $node = $this->set($path, $fax);
         
-        if(!is_null($extension) && is_int($extension)){
+        if(!is_null($extension)){
             $node->setAttribute('x', $extension);
         }
     }
