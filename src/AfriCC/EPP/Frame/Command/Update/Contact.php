@@ -61,14 +61,14 @@ class Contact extends UpdateCommand
         $this->appendCountryCode(sprintf('contact:%s/contact:postalInfo[@type=\'%%s\']/contact:addr/contact:cc', $mode), $cc);
     }
 
-    private function setVoice($mode, $voice)
+    private function setVoice($mode, $voice, $extension = null)
     {
-        $this->appendVoice(sprintf('contact:%s/contact:voice', $mode), $voice);
+        $this->appendVoice(sprintf('contact:%s/contact:voice', $mode), $voice, $extension);
     }
 
-    private function setFax($mode, $fax)
+    private function setFax($mode, $fax, $extension = null)
     {
-        $this->appendFax(sprintf('contact:%s/contact:fax', $mode), $fax);
+        $this->appendFax(sprintf('contact:%s/contact:fax', $mode), $fax, $extension);
     }
 
     private function setEmail($mode, $email)
