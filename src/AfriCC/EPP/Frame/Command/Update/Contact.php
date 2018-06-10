@@ -85,6 +85,11 @@ class Contact extends UpdateCommand
     {
         $this->appendDisclose(sprintf('contact:%s/contact:disclose[@flag=\'%d\']/contact:%s', $mode, $flag, $value));
     }
+    
+    private function setStatus($mode, $status)
+    {
+        $this->set(sprintf('contact:%s/contact:status[@status=\'%s\']', $mode, $status));
+    }
 
     public function __call($name, $arguments)
     {
