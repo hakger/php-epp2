@@ -90,7 +90,7 @@ class Contact extends UpdateCommand
     
     private function setStatus($mode, $status)
     {
-        $this->set(sprintf('contact:%s/contact:status[@status=\'%s\']', $mode, $status));
+        $this->set(sprintf('contact:%s/contact:status[@s=\'%s\']', $mode, $status));
     }
 
     public function __call($name, $arguments)
