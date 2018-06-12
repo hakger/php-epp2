@@ -42,6 +42,11 @@ class Domain extends DomainUpdate implements ExtensionInterface
         return $this->addNs($host, true);
     }
     
+    public function addHostObj($host, $remove=false)
+    {
+        return $this->addNs($host, $remove);
+    }
+    
     public function addAdminContact($contact, $remove = false)
     {
         if ($remove) {

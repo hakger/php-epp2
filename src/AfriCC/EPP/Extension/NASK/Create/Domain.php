@@ -36,6 +36,11 @@ class Domain extends DomainCreate implements ExtensionInterface
         $this->set('domain:ns[]', $host);
     }
     
+    public function addHostObj($host)
+    {
+        return $this->addNs($host);
+    }
+    
     public function setAdminContact($admin_contact)
     {
         return false; //TODO: should this throw if registry doesn't allow Admin contact?
