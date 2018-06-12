@@ -3,6 +3,7 @@ namespace AfriCC\EPP\Extension\NASK\Update;
 
 use AfriCC\EPP\ExtensionInterface;
 use AfriCC\EPP\Frame\Command\Update\Domain as DomainUpdate;
+use AfriCC\EPP\Validator;
 
 class Domain extends DomainUpdate implements ExtensionInterface
 {
@@ -19,6 +20,26 @@ class Domain extends DomainUpdate implements ExtensionInterface
     public function getExtensionName()
     {
         return $this->extension_xmlns;
+    }
+    
+    public function addNs($host, $remove = false)
+    {
+        if (!Validator::isHostname($host)) {
+            throw new \Exception(sprintf('%s is not a valid host name', $host));
+        }
+        
+        if ($remove) {
+            $key = 'rem';
+        } else {
+            $key = 'add';
+        }
+        
+        $this->set(sprintf('domain:%s/domain:ns[]', $key), $host);
+    }
+    
+    public function removeNs($host)
+    {
+        return $this->addNs($host, true);
     }
     
     public function addAdminContact($contact, $remove = false)

@@ -3,6 +3,7 @@ namespace AfriCC\EPP\Extension\NASK\Create;
 
 use AfriCC\EPP\ExtensionInterface;
 use AfriCC\EPP\Frame\Command\Create\Domain as DomainCreate;
+use AfriCC\EPP\Validator;
 
 class Domain extends DomainCreate implements ExtensionInterface
 {
@@ -24,6 +25,15 @@ class Domain extends DomainCreate implements ExtensionInterface
     public function setBook()
     {
         $this->set('//epp:epp/epp:command/epp:extension/extdom:create/extdom:book');
+    }
+    
+    public function addNs($host)
+    {
+        if (!Validator::isHostname($host)) {
+            throw new \Exception(sprintf('%s is not a valid host name', $host));
+        }
+        
+        $this->set('domain:ns[]', $host);
     }
     
     public function setAdminContact($admin_contact)
