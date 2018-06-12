@@ -14,12 +14,12 @@ class Domain extends DomainCreate implements ExtensionInterface
     
     public function getExtensionNamespace()
     {
-        return $this->extension;
+        return $this->extension_xmlns;
     }
 
     public function getExtensionName()
     {
-        return $this->extension_xmlns;
+        return $this->extension;
     }
     
     public function setBook()
