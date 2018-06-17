@@ -117,6 +117,7 @@ abstract class AbstractFrame extends DOMDocument implements FrameInterface
 
     protected function createNodes($path)
     {
+        echo "createNodes: $path\n";
         $path_parts = explode('/', $path);
         $node_path = null;
 

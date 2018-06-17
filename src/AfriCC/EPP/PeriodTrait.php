@@ -18,6 +18,14 @@ use Exception;
  */
 trait PeriodTrait
 {
+    /**
+     * Set value to path
+     *
+     * @param string $path
+     * @param mixed $value
+     * @return \DOMElement
+     *
+     */
     abstract public function set($path = null, $value = null);
 
     protected function appendPeriod($path, $period)

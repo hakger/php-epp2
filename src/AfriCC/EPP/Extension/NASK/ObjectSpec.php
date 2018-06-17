@@ -22,6 +22,9 @@ class ObjectSpec extends MainObjectSpec
         'future' => [
             'xmlns' => 'http://www.dns.pl/nask-epp-schema/future-2.0'
         ],
+        'secDNS' => [
+            'xmlns' => 'http://www.dns.pl/nask-epp-schema/secDNS-2.0'
+        ]
     
     ];
     
