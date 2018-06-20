@@ -119,7 +119,7 @@ class Domain extends UpdateCommand
     public function addSecDNSdsData($keyTag, $alg, $digestType, $digest, $remove = false)
     {
         $key = $remove ? 'rem' : 'add';
-        $node = $this->set(sprintf('//epp:epp/epp:command/epp:extension/secDNS:%s/secDNS:dsData[]', $key));
+        $node = $this->set(sprintf('//epp:epp/epp:command/epp:extension/secDNS:update/secDNS:%s/secDNS:dsData[]', $key));
         $ns = ObjectSpec::xmlns('secDNS');
         $keyTagNode = $this->createElementNS($ns, 'secDNS:keyTag', $keyTag);
         $algNode = $this->createElementNS($ns, 'secDNS:alg', $alg);
@@ -150,7 +150,7 @@ class Domain extends UpdateCommand
      */
     public function removeSecDNSAll($all = true)
     {
-        $this->set('//epp:epp/epp:command/epp:extension/secDNS:rem/secDNS:all', $all ? 'true': 'false');
+        $this->set('//epp:epp/epp:command/epp:extension/secDNS:update/secDNS:rem/secDNS:all', $all ? 'true': 'false');
     }
 
     public function removeAdminContact($contact)
