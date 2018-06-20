@@ -13,7 +13,7 @@ class Future extends InfoCommand
      * @param string $domain Domain Name
      * @throws Exception on incorrect domain name
      */
-    public function setDomain($domain)
+    public function setFuture($domain)
     {
         if (!Validator::isHostname($domain)) {
             throw new Exception(sprintf('%s is not a valid domain name', $domain));
