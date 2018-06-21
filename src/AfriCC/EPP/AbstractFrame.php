@@ -31,6 +31,11 @@ abstract class AbstractFrame extends DOMDocument implements FrameInterface
     protected $command;
     protected $mapping;
     protected $extension;
+    /**
+     * 
+     * @var bool whether to ignore command part when building realxpath
+     */
+    protected $ignore_command = false;
 
     /**
      * Construct (with import if specified) frame
@@ -207,7 +212,9 @@ abstract class AbstractFrame extends DOMDocument implements FrameInterface
 
         if (!empty($this->mapping) && !empty($this->command)) {
             array_unshift($path_parts, $this->mapping . ':' . $this->command);            
-        } else if (!empty($this->command)) {
+        }
+        
+        if (!empty($this->command) && !$this->ignore_command) {
             array_unshift($path_parts, 'epp:' . $this->command);
         }
 
