@@ -7,6 +7,7 @@ use AfriCC\EPP\ExtensionInterface;
 
 class Report extends Extension implements ExtensionInterface
 {
+    protected $ignore_command = true;
     protected $command = 'report';
     protected $mapping = 'extreport';
     protected $extension = 'extreport';

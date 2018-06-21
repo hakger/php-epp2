@@ -41,8 +41,17 @@ class ObjectSpec extends MainObjectSpec
         'http://www.dns.pl/nask-epp-schema/secDNS-2.0',
     ];
     
+    private static $backup;
+    
     public static function overwriteParent(){
+        self::$backup = MainObjectSpec::$specs;
         MainObjectSpec::$specs = self::$specs;
+    }
+    
+    public static function restoreParent() {
+        if(!empty(self::$backup)){
+            MainObjectSpec::$specs = self::$backup; 
+        }
     }
     
     
