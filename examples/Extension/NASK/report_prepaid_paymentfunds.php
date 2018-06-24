@@ -9,12 +9,12 @@ chdir(__DIR__);
 require './_autoload.php';
 use AfriCC\EPP\Extension\NASK\ObjectSpec;
 
-use AfriCC\EPP\Extension\NASK\Report\Payment as ReportPayment;
+use AfriCC\EPP\Extension\NASK\Report\Prepaid as ReportPaymentFunds;
 
 ObjectSpec::overwriteParent();
 
-$frame = new ReportPayment();
-$frame->setAccountType('domain');
+$frame = new ReportPaymentFunds();
+$frame->setFundsAccountType('DOMAIN');
 $frame->setOffset(0);
 $frame->setLimit(50);
 echo $frame;
