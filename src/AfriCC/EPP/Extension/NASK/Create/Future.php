@@ -1,5 +1,5 @@
 <?php
-namespace Africc\EPP\Extension\NASK\Create;
+namespace AfriCC\EPP\Extension\NASK\Create;
 
 use AfriCC\EPP\Frame\Command\Create as CreateCommand;
 use AfriCC\EPP\PeriodTrait;
