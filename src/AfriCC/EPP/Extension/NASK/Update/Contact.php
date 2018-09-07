@@ -20,6 +20,13 @@ class Contact extends ContactUpdate implements ExtensionInterface
         return $this->extension;
     }
 
+    /**
+     * Warning: may not work!
+     * @param boolean $individual
+     */
+    public function setIndividual($individual=false){
+        $this->set('//epp:epp/epp:command/epp:extension/extcon:update/extcon:individual', $individual ? 1 : 0);
+    }
     
     public function setConsentForPublishing($consent=false){
         $this->set('//epp:epp/epp:command/epp:extension/extcon:update/extcon:consentForPublishing', $consent ? 1 : 0 );
