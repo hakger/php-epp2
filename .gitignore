@@ -1,14 +1,21 @@
-# Eclipse + PDT
+# osx specific
+.DS_Store
+
+# ignore-ide
 /.settings/
 /.buildpath
 /.project
+# Intellij IDEA
+/.idea
+*.iml
+
+# composer
+/vendor/
+composer.lock
 
 # configs
 /config.php
 /coza/
 
-#composer
-composer.lock
-/vendor
-/php-epp2.bfproject
-/php-epp2.geany
+# build
+/build/
