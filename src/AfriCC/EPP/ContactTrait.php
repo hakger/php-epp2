@@ -60,7 +60,7 @@ trait ContactTrait
 
     /**
      * Skip the generation of type=int.
-     * @param boolean $value
+     * @param bool $value
      */
     public function skipInt($value = true)
     {
