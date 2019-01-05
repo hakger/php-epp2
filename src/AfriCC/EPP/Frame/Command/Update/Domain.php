@@ -146,7 +146,8 @@ class Domain extends UpdateCommand
     
     /**
      * Remove all secDNS data - RFC 5910
-     * @param boolean $all - whether to remove ALL (true) or do nothing (false)
+     *
+     * @param bool $all - whether to remove ALL (true) or do nothing (false)
      */
     public function removeSecDNSAll($all = true)
     {

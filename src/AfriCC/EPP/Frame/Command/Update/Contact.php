@@ -7,7 +7,7 @@
  *
  * For the full copyright and license information, please view the LICENSE file
  * that was distributed with this source code.
- * 
+ *
  * TODO: This class can generate content not compliant with RFC 5733. I wonder if we should force it to be compliant and rely on extensions for non-compliant registrars.
  */
 
@@ -87,7 +87,7 @@ class Contact extends UpdateCommand
     {
         $this->appendDisclose(sprintf('contact:%s/contact:disclose[@flag=\'%d\']/contact:%s', $mode, $flag, $value));
     }
-    
+
     private function setStatus($mode, $status)
     {
         $this->set(sprintf('contact:%s/contact:status[@s=\'%s\']', $mode, $status));
