@@ -30,6 +30,6 @@ class Contact extends InfoCommand
      */
     public function setAuthInfo($pw)
     {
-        $node = $this->set('contact:authInfo/contact:pw', $pw);
+        $this->set('contact:authInfo/contact:pw', $pw);
     }
 }

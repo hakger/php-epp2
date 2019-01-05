@@ -39,27 +39,28 @@ trait ContactTrait
     protected $skip_loc = false;
 
     /**
-     * 
      * @param string $path
      * @param mixed $value
+     *
      * @return \DOMElement
      */
     abstract public function set($path = null, $value = null);
 
     /**
      * Whether to force ASCI on loc contacts
-     * 
-     * @param boolean $value
+     *
+     * @param bool $value
+     *
      * @see \AfriCC\EPP\ContactTrait::force_ascii
      */
     public function forceAscii($value = true)
     {
         $this->force_ascii = $value;
-        
     }
 
     /**
      * Skip the generation of type=int.
+     *
      * @param bool $value
      */
     public function skipInt($value = true)
@@ -69,6 +70,8 @@ trait ContactTrait
 
     /**
      * Skip the generation of type=loc.
+     *
+     * @param bool $value
      */
     public function skipLoc($value = true)
     {
@@ -161,20 +164,20 @@ trait ContactTrait
         }
     }
 
-    public function appendVoice($path, $voice, $extension=null)
+    public function appendVoice($path, $voice, $extension = null)
     {
         $node = $this->set($path, $voice);
-        
-        if(!is_null($extension)){
-           $node->setAttribute('x', $extension); 
+
+        if (!is_null($extension)) {
+            $node->setAttribute('x', $extension);
         }
     }
 
-    public function appendFax($path, $fax, $extension)
+    public function appendFax($path, $fax, $extension = null)
     {
         $node = $this->set($path, $fax);
-        
-        if(!is_null($extension)){
+
+        if (!is_null($extension)) {
             $node->setAttribute('x', $extension);
         }
     }

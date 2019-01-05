@@ -305,9 +305,9 @@ class Validator
      */
     public static function isHostname($hostname)
     {
-        if (preg_match('/^([a-z\d](-*[a-z\d])*)(\.([a-z\d](-*[a-z\d])*))*$/i', $hostname) && // valid chars check
-            preg_match('/^.{1,253}$/', $hostname) && // overall length check
-            preg_match('/^[^\.]{1,63}(\.[^\.]{1,63})*$/', $hostname) && // length of each label
+        if (preg_match('/^([a-z\d](-*[a-z\d])*)(\.([a-z\d](-*[a-z\d])*))*$/i', $hostname) && //valid chars check
+            preg_match('/^.{1,253}$/', $hostname) && //overall length check
+            preg_match('/^[^\.]{1,63}(\.[^\.]{1,63})*$/', $hostname) && //length of each label
             strpos($hostname, '.') // has at least two labels (SLD + TLD)
         ) {
             return true;
@@ -330,7 +330,7 @@ class Validator
 
         $ascii_email = substr($email, 0, $pos) . '@' . idn_to_ascii(substr($email, $pos + 1), IDNA_DEFAULT, INTL_IDNA_VARIANT_UTS46);
 
-        return (bool)filter_var($ascii_email, FILTER_VALIDATE_EMAIL);
+        return (bool) filter_var($ascii_email, FILTER_VALIDATE_EMAIL);
     }
 
     /**
