@@ -154,11 +154,11 @@ class DomainCreateTest extends TestCase
             }
         }
     }
-    
+
     public function testDomainCreateFrameInvalidHostAttr()
     {
         $frame = new Domain();
-        
+
         if (method_exists($this, 'expectException')) {
             $this->expectException(Exception::class);
             $frame->addHostAttr('ns1.' . TEST_DOMAIN, [
@@ -176,11 +176,11 @@ class DomainCreateTest extends TestCase
             }
         }
     }
-    
+
     public function testDomainCreateFrameInvalidHostAttrDomain()
     {
         $frame = new Domain();
-        
+
         if (method_exists($this, 'expectException')) {
             $this->expectException(Exception::class);
             $frame->addHostAttr('invalid_domain', [

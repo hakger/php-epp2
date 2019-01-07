@@ -1,4 +1,5 @@
 <?php
+
 // TODO: This example generates code not compliant with RFC 5733
 // debug
 error_reporting(E_ALL);

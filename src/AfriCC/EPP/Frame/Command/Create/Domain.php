@@ -84,11 +84,11 @@ class Domain extends CreateCommand
 
         return $pw;
     }
-    
+
     /**
      * Add SecDNS dsData - RFC 5910
-     * 
-     * @param int $keyTag 
+     *
+     * @param int $keyTag
      * @param int $alg
      * @param int $digestType
      * @param string $digest

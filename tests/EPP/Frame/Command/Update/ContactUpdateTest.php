@@ -26,7 +26,7 @@ class ContactUpdateTest extends TestCase
         $frame->changeEmail('phpepp@afri.cc');
         $frame->removeAddStreet('Long St. 16');
         $frame->removeCity('Durban');
-        
+
         $auth = $frame->changeAuthInfo();
 
         $this->assertXmlStringEqualsXmlString(

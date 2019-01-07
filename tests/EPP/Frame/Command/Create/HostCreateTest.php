@@ -48,11 +48,11 @@ class HostCreateTest extends TestCase
             }
         }
     }
-    
+
     public function testHostCreateFrameInvalidHostIp()
     {
         $frame = new Host();
-        
+
         if (method_exists($this, 'expectException')) {
             $this->expectException(Exception::class);
             $frame->setHost('ns1.' . TEST_DOMAIN);

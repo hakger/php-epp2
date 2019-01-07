@@ -283,14 +283,14 @@ class ContactCreateTest extends TestCase
             (string) $frame
         );
     }
-    
+
     public function testContactCreateForceAscii()
     {
         $frame = new Contact();
         $frame->forceAscii();
         $frame->setId('CONTACT1');
         $frame->setOrganization('Fäther & Sons"');
-        
+
         $this->assertXmlStringEqualsXmlString(
             '
                 <epp xmlns="urn:ietf:params:xml:ns:epp-1.0">
@@ -312,12 +312,12 @@ class ContactCreateTest extends TestCase
             (string) $frame
         );
     }
-    
+
     public function testContactCreateInvalidCC()
     {
         $frame = new Contact();
         $frame->setId('CONTACT1');
-        
+
         if (method_exists($this, 'expectException')) {
             $this->expectException(Exception::class);
             $frame->setCountryCode('Canada');
@@ -329,12 +329,12 @@ class ContactCreateTest extends TestCase
             }
         }
     }
-    
+
     public function testContactCreateInvalidEmail()
     {
         $frame = new Contact();
         $frame->setId('CONTACT1');
-        
+
         if (method_exists($this, 'expectException')) {
             $this->expectException(Exception::class);
             $frame->setEmail('Canada');
