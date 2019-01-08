@@ -1,4 +1,5 @@
 <?php
+
 namespace AfriCC\Tests\EPP\Extension\NASK\Report;
 
 use AfriCC\EPP\Extension\NASK\Report\Domain as Report;
@@ -9,14 +10,15 @@ class ReportDomainTest extends TestCase
 {
     public function setUp()
     {
+        parent::setUp();
         ObjectSpec::overwriteParent();
     }
-    
+
     public function tearDown()
     {
         ObjectSpec::restoreParent();
     }
-    
+
     public function testNaskReportFrame()
     {
         //ObjectSpec::overwriteParent();
