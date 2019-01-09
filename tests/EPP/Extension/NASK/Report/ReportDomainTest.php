@@ -19,7 +19,7 @@ class ReportDomainTest extends TestCase
         ObjectSpec::restoreParent();
     }
 
-    public function testNaskReportFrame()
+    public function testDomainReportFrame()
     {
         //ObjectSpec::overwriteParent();
         $frame = new Report();
