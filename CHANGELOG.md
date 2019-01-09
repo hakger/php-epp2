@@ -13,7 +13,7 @@
 - DNSSec dsData support in Domain classes ( @johnny-bit)
 - Introduced `HTTPClient` allowing EPP communication over HTTP(S) (@johnny-bit)
 - `AbstractClient` class and `ClientInterface` interface for ease of creating `Client` replacements(@johnny-bit)
-- NASK extension
+- NASK extension (@johnny-bit)
 
 ### Fixed
 
