@@ -6,7 +6,7 @@ use AfriCC\EPP\Frame\Command\Info\Contact as ContactInfo;
 
 class Contact extends ContactInfo implements ExtensionInterface
 {
-    
+
     protected $extension = 'extcon';
     protected $extension_xmlns = 'http://www.dns.pl/nask-epp-schema/extcon-2.0';
 
@@ -15,14 +15,9 @@ class Contact extends ContactInfo implements ExtensionInterface
         return $this->extension_xmlns;
     }
 
-    public function getExtensionName()
-    {
-        return $this->extension;
-    }
-    
     /**
      * Set contact authinfo
-     * 
+     *
      * @param string $pw authinfo
      * @param string $roid If specified, authinfo is of domain whose registrant is this contact
      */

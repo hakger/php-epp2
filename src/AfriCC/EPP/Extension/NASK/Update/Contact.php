@@ -15,11 +15,6 @@ class Contact extends ContactUpdate implements ExtensionInterface
         return $this->extension_xmlns;
     }
 
-    public function getExtensionName()
-    {
-        return $this->extension;
-    }
-
     /**
      * Set entity type of contact
      *
