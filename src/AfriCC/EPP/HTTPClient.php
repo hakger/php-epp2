@@ -168,6 +168,9 @@ class HTTPClient extends AbstractClient implements ClientInterface
      */
     public function request(FrameInterface $frame)
     {
+        if(!$this->active()){
+            $this->connect(); // If connection isn't active and wasn't explicilty started - setup connection
+        }
         if ($frame instanceof TransactionAwareInterface) {
             $frame->setClientTransactionId(
                 $this->generateClientTransactionId()
