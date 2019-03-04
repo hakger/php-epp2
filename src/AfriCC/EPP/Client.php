@@ -206,7 +206,7 @@ class Client extends AbstractClient implements ClientInterface
      */
     public function request(FrameInterface $frame)
     {
-        if(!$this->active()) {
+        if(!is_resource($this->socket)) {
             $this->connect(); // If connection isn't active and wasn't explicitly started - setup connection
         }
 
