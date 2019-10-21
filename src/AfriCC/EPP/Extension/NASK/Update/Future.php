@@ -46,7 +46,7 @@ class Future extends UpdateCommand
         if ($pw === null) {
             $pw = Random::auth(12);
         }
-
+        
         $this->set('future:chg/future:authInfo/future:pw', $pw);
 
         return $pw;

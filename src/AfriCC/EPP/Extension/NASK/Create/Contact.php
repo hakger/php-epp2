@@ -7,6 +7,7 @@ use AfriCC\EPP\Frame\Command\Create\Contact as ContactCreate;
 
 class Contact extends ContactCreate implements ExtensionInterface
 {
+    
     protected $extension = 'extcon';
     protected $extension_xmlns = 'http://www.dns.pl/nask-epp-schema/extcon-2.0';
 

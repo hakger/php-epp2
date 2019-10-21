@@ -3,6 +3,7 @@ namespace AfriCC\Tests\EPP\Extension\NASK\Report;
 
 use AfriCC\EPP\Extension\NASK\Report\Prepaid as Report;
 use AfriCC\EPP\Extension\NASK\ObjectSpec;
+use Exception;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -14,13 +15,13 @@ class ReportPrepaidTest extends TestCase
     {
         ObjectSpec::overwriteParent();
     }
-    
+
     public function tearDown()
     {
         ObjectSpec::restoreParent();
     }
-    
-    public function testNaskPrepaidPayments()
+
+    public function testPrepaidPaymentsFrame()
     {
         //ObjectSpec::overwriteParent();
         $frame = new Report();
@@ -47,8 +48,8 @@ xmlns:extreport="http://www.dns.pl/nask-epp-schema/extreport-2.0">
             (string) $frame
             );
     }
-    
-    public function testNaskPrepaidFunds()
+
+    public function testNaskPrepaidFundsFrame()
     {
         //ObjectSpec::overwriteParent();
         $frame = new Report();
@@ -70,6 +71,62 @@ xmlns:extreport="http://www.dns.pl/nask-epp-schema/extreport-2.0">
             ',
             (string) $frame
             );
+    }
+
+    public function testPrepaidFundsEnumFrame()
+    {
+        //ObjectSpec::overwriteParent();
+        $frame = new Report();
+        $frame->setFundsAccountType('ENUM');
+        $this->assertXmlStringEqualsXmlString(
+            '<?xml version="1.0" encoding="UTF-8"?>
+<epp xmlns="http://www.dns.pl/nask-epp-schema/epp-2.0">
+<extension>
+<extreport:report
+xmlns:extreport="http://www.dns.pl/nask-epp-schema/extreport-2.0">
+<extreport:prepaid>
+<extreport:paymentFunds>
+<extreport:accountType>ENUM</extreport:accountType>
+</extreport:paymentFunds>
+</extreport:prepaid>
+</extreport:report>
+</extension>
+</epp>
+            ',
+            (string) $frame
+            );
+    }
+
+    public function testPrepaidFundsInvalidAccount()
+    {
+        $frame = new Report();
+
+        if (method_exists($this, 'expectException')) {
+            $this->expectException(Exception::class);
+            $frame->setFundsAccountType('invalid');
+        } else {
+            try {
+                $frame->setFundsAccountType('invalid');
+            } catch (Exception $e) {
+                $this->assertEquals('Exception', get_class($e));
+            }
+        }
+    }
+
+    public function testPrepaidPaymentsInvalidAccount()
+    {
+        $frame = new Report();
+
+        if (method_exists($this, 'expectException')) {
+            $this->expectException(Exception::class);
+            $frame->setPaymentsAccountType('invalid');
+        } else {
+            try {
+                $frame->setPaymentsAccountType('invalid');
+            } catch (Exception $e) {
+                $this->assertEquals('Exception', get_class($e));
+            }
+        }
     }
 }
 

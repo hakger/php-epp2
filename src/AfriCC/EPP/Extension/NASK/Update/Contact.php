@@ -7,6 +7,7 @@ use AfriCC\EPP\Frame\Command\Update\Contact as ContactUpdate;
 
 class Contact extends ContactUpdate implements ExtensionInterface
 {
+    
     protected $extension = 'extcon';
     protected $extension_xmlns = 'http://www.dns.pl/nask-epp-schema/extcon-2.0';
 
@@ -20,8 +21,7 @@ class Contact extends ContactUpdate implements ExtensionInterface
      *
      * @param bool $individual True if person, false if company
      */
-    public function setIndividual($individual = false)
-    {
+    public function setIndividual($individual=false){
         $this->set('//epp:epp/epp:command/epp:extension/extcon:update/extcon:individual', $individual ? 1 : 0);
     }
 

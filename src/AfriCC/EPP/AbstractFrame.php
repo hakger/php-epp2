@@ -23,6 +23,7 @@ abstract class AbstractFrame extends DOMDocument implements FrameInterface
 {
     protected $xpath;
     /**
+     * 
      * @var \DOMElement[]
      */
     protected $nodes;
@@ -31,6 +32,7 @@ abstract class AbstractFrame extends DOMDocument implements FrameInterface
     protected $mapping;
     protected $extension;
     /**
+     * 
      * @var bool whether to ignore command part when building realxpath
      */
     protected $ignore_command = false;
@@ -63,8 +65,8 @@ abstract class AbstractFrame extends DOMDocument implements FrameInterface
     }
 
     /**
-     * {@inheritdoc}
-     *
+     * 
+     * {@inheritDoc}
      * @see \AfriCC\EPP\FrameInterface::set()
      */
     public function set($path = null, $value = null)
@@ -83,8 +85,8 @@ abstract class AbstractFrame extends DOMDocument implements FrameInterface
     }
 
     /**
-     * {@inheritdoc}
-     *
+     * 
+     * {@inheritDoc}
      * @see \AfriCC\EPP\FrameInterface::get()
      */
     public function get($query)
@@ -110,7 +112,7 @@ abstract class AbstractFrame extends DOMDocument implements FrameInterface
 
     /**
      * {@inheritdoc}
-     *
+     * 
      * @see \AfriCC\EPP\FrameInterface::__toString()
      */
     public function __toString()
@@ -279,13 +281,6 @@ abstract class AbstractFrame extends DOMDocument implements FrameInterface
         }
     }
 
-    /**
-     * Get Class name from full class
-     *
-     * @param string $class
-     *
-     * @return string
-     */
     private function className($class)
     {
         if (!is_string($class)) {

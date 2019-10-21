@@ -58,7 +58,7 @@ class HTTPClient extends AbstractClient implements ClientInterface
     private function setupCurl()
     {
         $this->curl = curl_init($this->host);
-
+        
         if ($this->curl === false) {
             throw new \Exception('Cannot initialize cURL extension');
         }
@@ -80,12 +80,12 @@ class HTTPClient extends AbstractClient implements ClientInterface
             CURLOPT_CONNECTTIMEOUT,
             $this->connect_timeout
             );
-
+        
         // set necessary options
         curl_setopt($this->curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($this->curl, CURLOPT_FOLLOWLOCATION, true);
         curl_setopt($this->curl, CURLOPT_HEADER, false);
-
+        
         // cookies
         curl_setopt($this->curl, CURLOPT_COOKIEFILE, $this->cookiejar);
         curl_setopt($this->curl, CURLOPT_COOKIEJAR, $this->cookiejar);
@@ -121,14 +121,14 @@ class HTTPClient extends AbstractClient implements ClientInterface
 
         // get greeting
         $greeting = $this->request(new \AfriCC\EPP\Frame\Hello());
-
+        
         // login
         $this->login($newPassword);
-
+        
         // return greeting
         return $greeting;
     }
-
+    
     /**
      * Closes a previously opened EPP connection
      */
@@ -137,28 +137,26 @@ class HTTPClient extends AbstractClient implements ClientInterface
         if ($this->active()) {
             // send logout frame
             $this->request(new LogoutCommand());
-
             return curl_close($this->curl);
         }
-
         return false;
     }
-
+    
     /**
      * sends a XML-based frame to the server
-     *
+     * 
      * @param FrameInterface $frame the frame to send to the server
-     *
      * @return string
      */
     public function send(FrameInterface $frame)
     {
-        $content = (string) $frame;
+        
+        $content = (string)$frame;
         curl_setopt($this->curl, CURLOPT_POSTFIELDS, $content);
-
+        
         return curl_exec($this->curl);
     }
-
+    
     /**
      * request via EPP
      *
@@ -168,26 +166,27 @@ class HTTPClient extends AbstractClient implements ClientInterface
      */
     public function request(FrameInterface $frame)
     {
+        
         if ($frame instanceof TransactionAwareInterface) {
             $frame->setClientTransactionId(
                 $this->generateClientTransactionId()
                 );
         }
-
+        
         $return = $this->send($frame);
-
+        
         if ($return === false) {
             $code = curl_errno($this->curl);
             $msg = curl_error($this->curl);
             throw new \Exception($msg, $code);
         }
-
+        
         return ResponseFactory::build($return);
     }
-
+    
     protected function log($message)
     {
-        if ($this->debug) {
+        if($this->debug) {
             \error_log($message);
         }
     }

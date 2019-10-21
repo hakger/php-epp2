@@ -15,12 +15,17 @@ class Domain extends DomainRenew implements ExtensionInterface
     {
         return $this->extension_xmlns;
     }
-
+    
+    public function getExtensionName()
+    {
+        return $this->extension;
+    }
+    
     public function setReactivate()
     {
         $this->set('//epp:epp/epp:command/epp:extension/extdom:renew/extdom:reactivate');
     }
-
+    
     public function setRenewToDate($date)
     {
         $this->set('//epp:epp/epp:command/epp:extension/extdom:renew/extdom:renewToDate', $date);
