@@ -10,8 +10,9 @@ class Future extends CheckCommand
 {
     /**
      * Add future (option for domain)
-     * 
+     *
      * @param string $domain Domain name
+     *
      * @throws Exception Upon incorrect domain name
      */
     public function addFuture($domain)
@@ -22,4 +23,3 @@ class Future extends CheckCommand
         $this->set('future:name[]', $domain);
     }
 }
-

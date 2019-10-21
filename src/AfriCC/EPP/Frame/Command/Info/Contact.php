@@ -25,16 +25,11 @@ class Contact extends InfoCommand
 
     /**
      * Set contact authinfo
-     * 
+     *
      * @param string $pw authinfo
-     * @param string $roid If specified, authinfo is of domain whose registrant is this contac
      */
-    public function setAuthInfo($pw, $roid = null)
+    public function setAuthInfo($pw)
     {
-        $node = $this->set('contact:authInfo/contact:pw', $pw);
-        
-        if ($roid !== null) {
-            $node->setAttribute('roid', $roid);
-        }
+        $this->set('contact:authInfo/contact:pw', $pw);
     }
 }

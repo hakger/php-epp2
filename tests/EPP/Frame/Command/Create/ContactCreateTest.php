@@ -3,6 +3,7 @@
 namespace AfriCC\Tests\EPP\Frame\Command\Create;
 
 use AfriCC\EPP\Frame\Command\Create\Contact;
+use Exception;
 use PHPUnit\Framework\TestCase;
 
 class ContactCreateTest extends TestCase
@@ -21,7 +22,7 @@ class ContactCreateTest extends TestCase
         $frame->setPostalCode('8001');
         $frame->setCountryCode('ZA');
         $frame->setVoice('+27.844784784');
-        $frame->setFax('+1.844784784');
+        $frame->setFax('+1.844784784', '123');
         $frame->setEmail('github@afri.cc');
         $auth = $frame->setAuthInfo();
         $frame->addDisclose('voice');
@@ -59,7 +60,7 @@ class ContactCreateTest extends TestCase
                       </contact:addr>
                     </contact:postalInfo>
                     <contact:voice>+27.844784784</contact:voice>
-                    <contact:fax>+1.844784784</contact:fax>
+                    <contact:fax x="123">+1.844784784</contact:fax>
                     <contact:email>github@afri.cc</contact:email>
                     <contact:authInfo>
                       <contact:pw>' . $auth . '</contact:pw>
@@ -91,7 +92,7 @@ class ContactCreateTest extends TestCase
         $frame->setProvince('WC');
         $frame->setPostalCode('8001');
         $frame->setCountryCode('ZA');
-        $frame->setVoice('+27.844784784');
+        $frame->setVoice('+27.844784784', '123');
         $frame->setFax('+1.844784784');
         $frame->setEmail('github@afri.cc');
         $auth = $frame->setAuthInfo();
@@ -117,7 +118,7 @@ class ContactCreateTest extends TestCase
                         <contact:cc>ZA</contact:cc>
                       </contact:addr>
                     </contact:postalInfo>
-                    <contact:voice>+27.844784784</contact:voice>
+                    <contact:voice x="123">+27.844784784</contact:voice>
                     <contact:fax>+1.844784784</contact:fax>
                     <contact:email>github@afri.cc</contact:email>
                     <contact:authInfo>
@@ -253,5 +254,96 @@ class ContactCreateTest extends TestCase
             ',
             (string) $frame
         );
+    }
+
+    public function testContactCreateEntities()
+    {
+        $frame = new Contact();
+        $frame->setId('CONTACT1');
+        $frame->setOrganization('Fäther & Sons"');
+
+        $this->assertXmlStringEqualsXmlString(
+            '
+                <epp xmlns="urn:ietf:params:xml:ns:epp-1.0">
+                  <command>
+                    <create>
+                      <contact:create xmlns:contact="urn:ietf:params:xml:ns:contact-1.0">
+                        <contact:id>CONTACT1</contact:id>
+                        <contact:postalInfo type="loc">
+                          <contact:org>Fäther &amp; Sons"</contact:org>
+                        </contact:postalInfo>
+                        <contact:postalInfo type="int">
+                          <contact:org>Father &amp; Sons"</contact:org>
+                        </contact:postalInfo>
+                      </contact:create>
+                    </create>
+                  </command>
+                </epp>
+            ',
+            (string) $frame
+        );
+    }
+
+    public function testContactCreateForceAscii()
+    {
+        $frame = new Contact();
+        $frame->forceAscii();
+        $frame->setId('CONTACT1');
+        $frame->setOrganization('Fäther & Sons"');
+
+        $this->assertXmlStringEqualsXmlString(
+            '
+                <epp xmlns="urn:ietf:params:xml:ns:epp-1.0">
+                  <command>
+                    <create>
+                      <contact:create xmlns:contact="urn:ietf:params:xml:ns:contact-1.0">
+                        <contact:id>CONTACT1</contact:id>
+                        <contact:postalInfo type="loc">
+                          <contact:org>Father &amp; Sons"</contact:org>
+                        </contact:postalInfo>
+                        <contact:postalInfo type="int">
+                          <contact:org>Father &amp; Sons"</contact:org>
+                        </contact:postalInfo>
+                      </contact:create>
+                    </create>
+                  </command>
+                </epp>
+            ',
+            (string) $frame
+        );
+    }
+
+    public function testContactCreateInvalidCC()
+    {
+        $frame = new Contact();
+        $frame->setId('CONTACT1');
+
+        if (method_exists($this, 'expectException')) {
+            $this->expectException(Exception::class);
+            $frame->setCountryCode('Canada');
+        } else {
+            try {
+                $frame->setCountryCode('Canada');
+            } catch (Exception $e) {
+                $this->assertEquals('Exception', get_class($e));
+            }
+        }
+    }
+
+    public function testContactCreateInvalidEmail()
+    {
+        $frame = new Contact();
+        $frame->setId('CONTACT1');
+
+        if (method_exists($this, 'expectException')) {
+            $this->expectException(Exception::class);
+            $frame->setEmail('Canada');
+        } else {
+            try {
+                $frame->setEmail('Canada');
+            } catch (Exception $e) {
+                $this->assertEquals('Exception', get_class($e));
+            }
+        }
     }
 }

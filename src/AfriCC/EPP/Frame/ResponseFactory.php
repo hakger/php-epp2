@@ -19,8 +19,9 @@ class ResponseFactory
 {
     /**
      * Build response frame
-     * 
+     *
      * @param string $buffer
+     *
      * @return string|\AfriCC\EPP\Frame\Response\MessageQueue|\AfriCC\EPP\Frame\Response
      */
     public static function build($buffer)

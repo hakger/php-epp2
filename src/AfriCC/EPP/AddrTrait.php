@@ -25,8 +25,8 @@ trait AddrTrait
      *
      * @param string $path
      * @param mixed $value
-     * @return \DOMElement
      *
+     * @return \DOMElement
      */
     abstract public function set($path = null, $value = null);
 

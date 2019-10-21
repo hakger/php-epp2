@@ -8,7 +8,6 @@ chdir(__DIR__);
 
 require './_autoload.php';
 use AfriCC\EPP\Extension\NASK\ObjectSpec;
-
 use AfriCC\EPP\Extension\NASK\Renew\Future as RenewFuture;
 
 ObjectSpec::overwriteParent();

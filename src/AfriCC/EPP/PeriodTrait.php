@@ -23,14 +23,14 @@ trait PeriodTrait
      *
      * @param string $path
      * @param mixed $value
-     * @return \DOMElement
      *
+     * @return \DOMElement
      */
     abstract public function set($path = null, $value = null);
 
     protected function appendPeriod($path, $period)
     {
-        $matches=[];
+        $matches = [];
         if (preg_match('/^(\d+)([a-z])$/i', $period, $matches)) {
             $this->set(sprintf($path, $matches[2]), $matches[1]);
         } else {

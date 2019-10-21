@@ -1,4 +1,5 @@
 <?php
+
 namespace AfriCC\EPP\Extension\NASK\Report;
 
 use AfriCC\EPP\Extension\NASK\Report;
@@ -16,7 +17,7 @@ class Host extends Report
 
     /**
      * Set name of host to report. Do not use unless wanting report only about single host.
-     * 
+     *
      * @param string $name name of host to report
      */
     public function setName($name)
@@ -24,4 +25,3 @@ class Host extends Report
         $this->set('extreport:host/extreport:name', $name);
     }
 }
-

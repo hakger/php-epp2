@@ -23,7 +23,6 @@ abstract class AbstractFrame extends DOMDocument implements FrameInterface
 {
     protected $xpath;
     /**
-     * 
      * @var \DOMElement[]
      */
     protected $nodes;
@@ -32,14 +31,13 @@ abstract class AbstractFrame extends DOMDocument implements FrameInterface
     protected $mapping;
     protected $extension;
     /**
-     * 
      * @var bool whether to ignore command part when building realxpath
      */
     protected $ignore_command = false;
 
     /**
      * Construct (with import if specified) frame
-     * 
+     *
      * @param DOMDocument $import
      */
     public function __construct($import = null)
@@ -65,8 +63,8 @@ abstract class AbstractFrame extends DOMDocument implements FrameInterface
     }
 
     /**
-     * 
-     * {@inheritDoc}
+     * {@inheritdoc}
+     *
      * @see \AfriCC\EPP\FrameInterface::set()
      */
     public function set($path = null, $value = null)
@@ -85,8 +83,8 @@ abstract class AbstractFrame extends DOMDocument implements FrameInterface
     }
 
     /**
-     * 
-     * {@inheritDoc}
+     * {@inheritdoc}
+     *
      * @see \AfriCC\EPP\FrameInterface::get()
      */
     public function get($query)
@@ -111,8 +109,8 @@ abstract class AbstractFrame extends DOMDocument implements FrameInterface
     }
 
     /**
-     * 
-     * {@inheritDoc}
+     * {@inheritdoc}
+     *
      * @see \AfriCC\EPP\FrameInterface::__toString()
      */
     public function __toString()
@@ -120,6 +118,15 @@ abstract class AbstractFrame extends DOMDocument implements FrameInterface
         return $this->saveXML();
     }
 
+    /**
+     * Create nodes specified by path
+     *
+     * @param string $path
+     *
+     * @throws Exception
+     *
+     * @return null|string
+     */
     protected function createNodes($path)
     {
         $path_parts = explode('/', $path);
@@ -199,6 +206,13 @@ abstract class AbstractFrame extends DOMDocument implements FrameInterface
         return $node_path;
     }
 
+    /**
+     * Get Real XPath for provided path
+     *
+     * @param string $path
+     *
+     * @return string
+     */
     protected function realxpath($path)
     {
         if ($path === null) {
@@ -211,9 +225,9 @@ abstract class AbstractFrame extends DOMDocument implements FrameInterface
         }
 
         if (!empty($this->mapping) && !empty($this->command)) {
-            array_unshift($path_parts, $this->mapping . ':' . $this->command);            
+            array_unshift($path_parts, $this->mapping . ':' . $this->command);
         }
-        
+
         if (!empty($this->command) && !$this->ignore_command) {
             array_unshift($path_parts, 'epp:' . $this->command);
         }
@@ -223,7 +237,7 @@ abstract class AbstractFrame extends DOMDocument implements FrameInterface
         }
 
         array_unshift($path_parts, 'epp:epp');
-        
+
         return implode('/', $path_parts);
     }
 
@@ -265,6 +279,13 @@ abstract class AbstractFrame extends DOMDocument implements FrameInterface
         }
     }
 
+    /**
+     * Get Class name from full class
+     *
+     * @param string $class
+     *
+     * @return string
+     */
     private function className($class)
     {
         if (!is_string($class)) {

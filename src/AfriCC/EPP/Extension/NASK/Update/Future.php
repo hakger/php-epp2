@@ -1,4 +1,5 @@
 <?php
+
 namespace AfriCC\EPP\Extension\NASK\Update;
 
 use AfriCC\EPP\Frame\Command\Update as UpdateCommand;
@@ -8,11 +9,11 @@ use Exception;
 
 class Future extends UpdateCommand
 {
-    
     /**
      * Set domain name for future (option)
      *
      * @param string $domain Domain Name
+     *
      * @throws Exception on incorrect domain name
      */
     public function setFuture($domain)
@@ -22,21 +23,22 @@ class Future extends UpdateCommand
         }
         $this->set('future:name', $domain);
     }
-    
+
     /**
      * Change registrant contact id of Future object
-     * 
+     *
      * @param string $registrant ContactID of registrant
      */
     public function changeRegistrant($registrant)
     {
         $this->set('future:chg/future:registrant', $registrant);
     }
-    
+
     /**
      * Change future AuthInfo, generate if passed null
      *
      * @param string $pw AuthInfo code
+     *
      * @return string  AuthInfo code
      */
     public function changeAuthInfo($pw = null)
@@ -44,9 +46,9 @@ class Future extends UpdateCommand
         if ($pw === null) {
             $pw = Random::auth(12);
         }
-        
-        $this->set('future:chg/future:authInfo/future:pw', $pw);
-    }
-    
-}
 
+        $this->set('future:chg/future:authInfo/future:pw', $pw);
+
+        return $pw;
+    }
+}

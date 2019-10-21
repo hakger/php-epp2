@@ -13,26 +13,41 @@ namespace AfriCC\EPP;
 
 use AfriCC\EPP\Frame\Command\Logout as LogoutCommand;
 use AfriCC\EPP\Frame\ResponseFactory;
-use \Exception;
+use Exception;
 
 /**
  * A high level TCP (SSL) based client for the Extensible Provisioning Protocol (EPP)
  *
  * @see http://tools.ietf.org/html/rfc5734
+ *
+ * As this class deals directly with sockets it's untestable
+ * @codeCoverageIgnore
  */
 class Client extends AbstractClient implements ClientInterface
 {
     protected $socket;
     protected $chunk_size;
+    protected $verify_peer_name;
 
     public function __construct(array $config)
     {
         parent::__construct($config);
-        
+
         if (!empty($config['chunk_size'])) {
-            $this->chunk_size = (int)$config['chunk_size'];
+            $this->chunk_size = (int) $config['chunk_size'];
         } else {
             $this->chunk_size = 1024;
+        }
+
+        if (isset($config['verify_peer_name'])) {
+            $this->verify_peer_name = (bool) $config['verify_peer_name'];
+        } else {
+            $this->verify_peer_name = true;
+        }
+
+        if ($this->port === false) {
+            // if not set, default port is 700
+            $this->port = 700;
         }
     }
 
@@ -42,42 +57,60 @@ class Client extends AbstractClient implements ClientInterface
     }
 
     /**
-     * Open a new connection to the EPP server
+     * Setup context in case of ssl connection
+     *
+     * @return resource|null
      */
-    public function connect($newPassword = false)
+    private function setupContext()
+    {
+        if (!$this->ssl) {
+            return null;
+        }
+
+        $context = stream_context_create();
+
+        $options_array = [
+            'verify_peer' => false,
+            'verify_peer_name' => $this->verify_peer_name,
+            'allow_self_signed' => true,
+            'local_cert' => $this->local_cert,
+            'passphrase' => $this->passphrase,
+            'cafile' => $this->ca_cert,
+            'local_pk' => $this->pk_cert,
+        ];
+
+        // filter out empty user provided values
+        $options_array = array_filter(
+            $options_array,
+            function ($var) {
+                return !is_null($var);
+            }
+        );
+
+        $options = ['ssl' => $options_array];
+
+        // stream_context_set_option accepts array of options in form of $arr['wrapper']['option'] = value
+        stream_context_set_option($context, $options);
+
+        return $context;
+    }
+
+    /**
+     * Setup connection socket
+     *
+     * @param resource|null $context SSL context or null in case of tcp connection
+     *
+     * @throws Exception
+     */
+    private function setupSocket($context = null)
     {
         $proto = $this->ssl ? 'ssl' : 'tcp';
-        
-        if ($this->ssl) {
-
-            $context = stream_context_create();
-            stream_context_set_option($context, 'ssl', 'verify_peer', false);
-            stream_context_set_option($context, 'ssl', 'allow_self_signed', true);
-
-            if ($this->local_cert !== null) {
-                stream_context_set_option($context, 'ssl', 'local_cert', $this->local_cert);
-
-                if ($this->passphrase) {
-                    stream_context_set_option($context, 'ssl', 'passphrase', $this->passphrase);
-                }
-            }
-            if ($this->ca_cert !== null){
-                stream_context_set_option($context, 'ssl', 'cafile', $this->ca_cert);
-            }
-            if ($this->pk_cert !== null){
-                stream_context_set_option($context, 'ssl', 'local_pk', $this->pk_cert);
-            }
-        } 
-
-        $target = sprintf('%s://%s:%d', $proto, $this->host, $this->port ? $this->port : 700);
+        $target = sprintf('%s://%s:%d', $proto, $this->host, $this->port);
 
         $errno = 0;
         $errstr = '';
-        if (isset($context) && is_resource($context)) {
-            $this->socket = @stream_socket_client($target, $errno, $errstr, $this->connect_timeout, STREAM_CLIENT_CONNECT, $context);
-        } else {
-            $this->socket = @stream_socket_client($target, $errno, $errstr, $this->connect_timeout, STREAM_CLIENT_CONNECT);
-        }
+
+        $this->socket = @stream_socket_client($target, $errno, $errstr, $this->connect_timeout, STREAM_CLIENT_CONNECT, $context);
 
         if ($this->socket === false) {
             throw new Exception($errstr, $errno);
@@ -92,6 +125,17 @@ class Client extends AbstractClient implements ClientInterface
         if (!stream_set_blocking($this->socket, 0)) {
             throw new Exception('unable to set blocking');
         }
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see \AfriCC\EPP\ClientInterface::connect()
+     */
+    public function connect($newPassword = false)
+    {
+        $context = $this->setupContext();
+        $this->setupSocket($context);
 
         // get greeting
         $greeting = $this->getFrame();
@@ -167,8 +211,6 @@ class Client extends AbstractClient implements ClientInterface
         return $this->getFrame();
     }
 
-    
-
     protected function log($message, $color = '0;32')
     {
         if ($message === '' || !$this->debug) {
@@ -176,7 +218,7 @@ class Client extends AbstractClient implements ClientInterface
         }
         echo sprintf("\033[%sm%s\033[0m", $color, $message);
     }
-    
+
     /**
      * check if socket is still active
      *
@@ -209,10 +251,7 @@ class Client extends AbstractClient implements ClientInterface
 
             // If the buffer actually contains something then add it to the result
             if ($buffer !== false) {
-                
-                    $this->log($buffer);
-                
-
+                $this->log($buffer);
                 $result .= $buffer;
 
                 // break if all data received
